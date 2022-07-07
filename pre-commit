@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+if ! [ -x "$(command -v golangci-lint)" ]; then 
+    echo "installing golangci-lint..."
+    go install github.com/golangci/golangci-lint/cmd/golangci-lint@1.46.2
+fi 
+
+if ! [ -x "$(command -v gqlgen)" ]; then 
+    echo "installing glqgen"
+    go install github.com/99designs/gqlgen@latest
+fi 
+
+set -e 
+
+echo "running golangci-lint run"
+golangci-lint run 
+
+echo "running go test ./..." 
+go test ./...
+
+echo "running gql generate" 
+gqlgen generate 
